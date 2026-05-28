@@ -5,59 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>宝和抽赏司</title>
 
-  <!-- 微信分享卡片（部署后替换为实际图片和域名） -->
   <meta property="og:title" content="宝和抽赏司" />
-  <meta property="og:description" content="完成十个任务，来抽一份温柔犒赏" />
+  <meta property="og:description" content="完成十个任务，来抽一份宫廷犒赏吧" />
   <meta property="og:image" content="https://你的域名/icon.png" />
   <meta property="og:url" content="https://你的域名/" />
   <meta property="og:type" content="website" />
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <style>
-    body { margin: 0; background: #0d0f13; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
-    @keyframes unroll { 0% { transform: scaleX(0); opacity: 0.5; } 100% { transform: scaleX(1); opacity: 1; } }
-    @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
-    .scroll-unroll { animation: unroll 5s cubic-bezier(0.23, 1, 0.32, 1) forwards; transform-origin: center; }
-    .fade-in { animation: fadeIn 1.5s ease forwards; }
-    .wheel-pointer { filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6)); }
-    .legend-active { background: rgba(255,255,255,0.08); box-shadow: 0 0 18px rgba(201,170,107,0.7); transform: scale(1.12); transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); }
-    .paper-in-roll { box-shadow: inset 10px 0 20px rgba(0,0,0,0.3), inset -10px 0 20px rgba(0,0,0,0.3); margin-left: -8px; margin-right: -8px; position: relative; z-index: 1; }
-    .roll-axis { position: relative; z-index: 2; }
-    @keyframes gentleShift { 0% { background-position: 30% 30%; } 50% { background-position: 35% 28%; } 100% { background-position: 30% 30%; } }
-    .wheel-shine { animation: gentleShift 8s ease-in-out infinite; }
-    .gold-fleck { background-image: radial-gradient(circle at 20% 30%, rgba(212,175,55,0.15) 1px, transparent 1px), radial-gradient(circle at 80% 70%, rgba(212,175,55,0.08) 1px, transparent 1px); background-size: 40px 40px, 60px 60px; }
+    body {
+      margin: 0;
+      background: #0d0f13;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+    @keyframes unroll {
+      0% { transform: scaleX(0); opacity: 0.5; }
+      100% { transform: scaleX(1); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .scroll-unroll {
+      animation: unroll 5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      transform-origin: center;
+    }
+    .fade-in {
+      animation: fadeIn 1.5s ease forwards;
+    }
+    .wheel-pointer {
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+    }
+    .legend-active {
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 0 18px rgba(201,170,107,0.7);
+      transform: scale(1.12);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .paper-in-roll {
+      box-shadow: inset 10px 0 20px rgba(0,0,0,0.3), inset -10px 0 20px rgba(0,0,0,0.3);
+      margin-left: -8px;
+      margin-right: -8px;
+      position: relative;
+      z-index: 1;
+    }
+    .roll-axis {
+      position: relative;
+      z-index: 2;
+    }
+    @keyframes gentleShift {
+      0% { background-position: 30% 30%; }
+      50% { background-position: 35% 28%; }
+      100% { background-position: 30% 30%; }
+    }
+    .wheel-shine {
+      animation: gentleShift 8s ease-in-out infinite;
+    }
+    .gold-fleck {
+      background-image: radial-gradient(circle at 20% 30%, rgba(212,175,55,0.15) 1px, transparent 1px),
+                        radial-gradient(circle at 80% 70%, rgba(212,175,55,0.08) 1px, transparent 1px);
+      background-size: 40px 40px, 60px 60px;
+    }
 
-    /* 浮尘粒子 */
-    .dust-particle { position: absolute; width: 3px; height: 3px; background: rgba(212,175,100,0.4); border-radius: 50%; animation: floatDust 6s linear infinite; pointer-events: none; }
-    @keyframes floatDust {
-      0% { transform: translate(0, 0) scale(1); opacity: 0; }
-      20% { opacity: 0.8; }
-      100% { transform: translate(var(--dx), var(--dy)) scale(0.5); opacity: 0; }
+    /* 粒子动效 */
+    @keyframes particleRise {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.9; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #d4af55;
+      pointer-events: none;
+      animation: particleRise 2s ease-out forwards;
+    }
+    @keyframes sparkle {
+      0%,100% { opacity: 0.4; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    .sparkle-dot {
+      animation: sparkle 2s ease-in-out infinite;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
-  <script type="text/babel">
-    const { useState, useEffect, useCallback, useRef } = React;
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    // ========== 配置 ==========
-    const SUPABASE_URL = ''; // 例如 'https://xxxx.supabase.co'
-    const SUPABASE_ANON_KEY = ''; // 你的anon key
-    const REMOTE_CONFIG_URL = ''; // 远程概率配置JSON地址，留空则用内置
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
 
     // ========== 音效引擎 ==========
     let audioCtx = null;
-    let bgmNodes = { gain: null, osc: null, osc2: null, gain2: null, windTimer: null };
-
     function getAudioContext() {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
       return audioCtx;
     }
-
     function createReverb(d = 0.8) {
       const ctx = getAudioContext();
       const c = ctx.createConvolver();
@@ -70,7 +119,6 @@
       c.buffer = buf;
       return c;
     }
-
     function playSound(type) {
       try {
         const ctx = getAudioContext();
@@ -103,7 +151,6 @@
           const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1800; f.Q.value = 0.8;
           s.connect(f).connect(g).connect(createReverb(0.5)).connect(ctx.destination); s.start(t); s.stop(t + 0.45);
         } else if (type === 'reward') {
-          // 欢快叮咚
           const o1 = ctx.createOscillator(), g1 = ctx.createGain();
           o1.type = 'sine'; o1.frequency.setValueAtTime(880, t); o1.frequency.setValueAtTime(1100, t + 0.08);
           g1.gain.setValueAtTime(0.2, t); g1.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
@@ -117,71 +164,8 @@
       } catch (e) {}
     }
 
-    // ========== BGM（极简古琴泛音 + 风铃） ==========
-    function startBGM() {
-      stopBGM();
-      const ctx = getAudioContext();
-      const now = ctx.currentTime;
-
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(0.025, now + 3); // 3秒淡入
-
-      const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = 220; // A3泛音基频
-
-      const osc2 = ctx.createOscillator();
-      osc2.type = 'sine';
-      osc2.frequency.value = 330; // 五度泛音
-
-      const gain2 = ctx.createGain();
-      gain2.gain.value = 0.3;
-
-      osc.connect(gain);
-      osc2.connect(gain2);
-      gain2.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc2.start(now);
-
-      bgmNodes = { gain, osc, osc2, gain2, windTimer: null };
-
-      // 随机风铃（清脆高频）
-      const scheduleWind = () => {
-        if (!bgmNodes.osc) return;
-        const t = ctx.currentTime + 5 + Math.random() * 10;
-        const windOsc = ctx.createOscillator();
-        const windGain = ctx.createGain();
-        windOsc.type = 'sine';
-        windOsc.frequency.setValueAtTime(800 + Math.random() * 400, t);
-        windGain.gain.setValueAtTime(0.02, t);
-        windGain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
-        windOsc.connect(windGain).connect(ctx.destination);
-        windOsc.start(t);
-        windOsc.stop(t + 0.15);
-        bgmNodes.windTimer = setTimeout(scheduleWind, (5 + Math.random() * 10) * 1000);
-      };
-      bgmNodes.windTimer = setTimeout(scheduleWind, 4000);
-    }
-
-    function stopBGM() {
-      if (bgmNodes.osc) {
-        try { bgmNodes.osc.stop(); } catch (e) {}
-        try { bgmNodes.osc2.stop(); } catch (e) {}
-        bgmNodes.gain.disconnect();
-        bgmNodes.osc = null;
-        bgmNodes.osc2 = null;
-      }
-      if (bgmNodes.windTimer) {
-        clearTimeout(bgmNodes.windTimer);
-        bgmNodes.windTimer = null;
-      }
-    }
-
-    // ========== 默认奖励池 ==========
-    const defaultRewardPool = [
+    // ========== 数据 ==========
+    const rewardPool = [
       { id:1, category:'食慰', title:'煮一碗豪华面条', description:'是一碗热气腾腾、配料很满的快乐。', image:'🍜', probability:1 },
       { id:2, category:'食慰', title:'冯大头蒸菜', description:'今日膳房，冯大宝请客。', image:'🥘', probability:1 },
       { id:3, category:'食慰', title:'红星牛肉馆', description:'烟火气里，也算一种小型犒赏。', image:'🥩', probability:1 },
@@ -204,13 +188,14 @@
     ];
 
     const weightedRandom = (items) => {
-      const total = items.reduce((s, i) => s + (i.probability || 1), 0);
-      let r = Math.random() * total;
-      for (const item of items) {
-        r -= (item.probability || 1);
-        if (r <= 0) return item;
+      const total = items.reduce((s, i) => s + i.probability, 0);
+      const r = Math.random() * total;
+      let cur = 0;
+      for (const i of items) {
+        cur += i.probability;
+        if (r <= cur) return i;
       }
-      return items[items.length - 1];
+      return items[0];
     };
 
     const closingPhrases = [
@@ -218,18 +203,19 @@
       '好好享用这份犒赏','这份赏赐，你值得','辛苦了，这是你的心意',
     ];
 
+    const todayAllowances = [
+      '今日允许：把未完成的事留到明天。',
+      '今日允许：不回消息。',
+      '今日允许：只为自己做决定。',
+      '今日允许：当一只树懒。',
+      '今日允许：什么也不做。',
+    ];
+
     const formatRecordTime = (ts) => {
       const d = new Date(ts);
       const m = d.getMonth() + 1, day = d.getDate(), h = d.getHours();
       const sc = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
-      const shichen = sc[Math.floor(((h + 1) % 24) / 2)];
-      return `${m}月${day}日·${shichen}时`;
-    };
-
-    const getShichen = () => {
-      const h = new Date().getHours();
-      const sc = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
-      return sc[Math.floor(((h + 1) % 24) / 2)];
+      return `${m}月${day}日·${sc[Math.floor(((h + 1) % 24) / 2)]}时`;
     };
 
     // ========== 情绪陪伴文案库 ==========
@@ -252,15 +238,13 @@
 
     const funMessages = [
       '去给那谁一个大么么！(´ε｀ )♡',
+      '冯大宝：本宝批准你立刻开心。',
+      '叮！您有一份快乐请签收，拒收将自动转为傻笑。',
       '恭喜获得：合法偷懒许可证 📜',
       '宝和司统计：100%的任务完成者都选择了休息。',
       '今天允许你当一条咸鱼 🐟',
       '据线报，沙发和毛毯正在密谋绑架你。',
       '奖池里的快乐已到账，请查收意外赠品——一次摸鱼机会。',
-      '冯大宝：本宝批准你立刻开心。',
-      '叮！您有一份快乐请签收，拒收将自动转为傻笑。',
-      '你的可爱值已充值成功。',
-      '系统提示：今日运气好到可以单抽奇迹。',
     ];
 
     const milestoneMessages = {
@@ -269,7 +253,7 @@
       10: '十全十美，你的犒赏之旅已初具气象。',
     };
 
-    const timeGreetings = {
+    const timeGreetingsMap = {
       '卯': '晨光正好，今日赏赐已备下。',
       '辰': '早间清朗，宜接旨。',
       '午': '日正当空，来份犒赏正好。',
@@ -277,18 +261,36 @@
       '戌': '夜色已至，今日辛苦了，来接一份暖意。',
     };
 
-    function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
 
-    // ========== Supabase 客户端 ==========
-    const supabase = (SUPABASE_URL && SUPABASE_ANON_KEY) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-    const USER_ID = (() => {
-      let id = localStorage.getItem('baohe-user-id');
-      if (!id) {
-        id = 'user_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('baohe-user-id', id);
+    // 获取当前时辰
+    function getCurrentShichen() {
+      const h = new Date().getHours();
+      const sc = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+      return sc[Math.floor(((h + 1) % 24) / 2)];
+    }
+
+    // ========== 粒子效果辅助 ==========
+    function spawnParticles(container, count = 8) {
+      if (!container) return;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 30 + Math.random() * 50;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance - 20;
+        p.style.setProperty('--dx', dx + 'px');
+        p.style.setProperty('--dy', dy + 'px');
+        p.style.left = '50%';
+        p.style.top = '50%';
+        p.style.background = Math.random() > 0.5 ? '#d4af55' : '#e5c687';
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 2000);
       }
-      return id;
-    })();
+    }
 
     // ========== 组件 ==========
     function LotteryPage() {
@@ -297,98 +299,73 @@
       const [rotation, setRotation] = useState(0);
       const [selectedCategory, setSelectedCategory] = useState('');
       const [result, setResult] = useState(null);
-      const [history, setHistory] = useState([]);
+      const [history, setHistory] = useState(() => {
+        try { const s = localStorage.getItem('baohe-history'); return s ? JSON.parse(s) : []; }
+        catch (e) { return []; }
+      });
       const [phase, setPhase] = useState('idle');
       const [closingText, setClosingText] = useState('');
+      const [todayAllowance, setTodayAllowance] = useState('');
       const [activeLegend, setActiveLegend] = useState(-1);
-      const [bgmOn, setBgmOn] = useState(false);
-      const [rewardPool, setRewardPool] = useState(defaultRewardPool);
 
-      // 加载远程配置
-      useEffect(() => {
-        if (REMOTE_CONFIG_URL) {
-          fetch(REMOTE_CONFIG_URL)
-            .then(res => res.json())
-            .then(data => setRewardPool(data))
-            .catch(() => {});
-        }
-      }, []);
-
-      // 加载历史记录
-      useEffect(() => {
-        if (supabase) {
-          supabase.from('history')
-            .select('*')
-            .eq('user_id', USER_ID)
-            .order('created_at', { ascending: false })
-            .limit(10)
-            .then(({ data, error }) => {
-              if (data) {
-                setHistory(data.map(r => ({
-                  ...r.prize,
-                  timestamp: new Date(r.created_at).getTime()
-                })));
-              }
-            });
-        } else {
-          const saved = localStorage.getItem('baohe-history');
-          if (saved) setHistory(JSON.parse(saved));
-        }
-      }, []);
-
-      // 保存历史记录
-      const saveHistory = useCallback((newHistory) => {
-        setHistory(newHistory);
-        if (supabase) {
-          const latest = newHistory[0];
-          if (latest) {
-            supabase.from('history').insert({
-              user_id: USER_ID,
-              prize: latest,
-              category: latest.category,
-              created_at: new Date().toISOString()
-            }).then();
-          }
-        } else {
-          localStorage.setItem('baohe-history', JSON.stringify(newHistory));
-        }
-      }, []);
-
-      // 情绪提示
+      // 情绪提示状态
       const [tiredTip, setTiredTip] = useState({ show: false, text: '' });
       const [funTip, setFunTip] = useState({ show: false, text: '' });
-      const [milestoneTip, setMilestoneTip] = useState('');
-      const [timeGreeting, setTimeGreeting] = useState('');
+      const [milestoneTip, setMilestoneTip] = useState({ show: false, text: '' });
+      const [timeGreeting, setTimeGreeting] = useState({ show: false, text: '' });
 
+      const wheelCenterRef = useRef(null);
+      const scrollContainerRef = useRef(null);
+
+      // 持久化
+      useEffect(() => { localStorage.setItem('baohe-history', JSON.stringify(history)); }, [history]);
+
+      // 时辰问候（每天首次显示）
       useEffect(() => {
-        const shichen = getShichen();
-        setTimeGreeting(timeGreetings[shichen] || '');
-
-        if (history.length in milestoneMessages) {
-          setMilestoneTip(milestoneMessages[history.length]);
-        } else {
-          setMilestoneTip('');
+        const today = new Date().toDateString();
+        const lastShown = localStorage.getItem('baohe-greeting-date');
+        if (lastShown !== today) {
+          const shichen = getCurrentShichen();
+          const msg = timeGreetingsMap[shichen] || '今日宜犒赏。';
+          setTimeGreeting({ show: true, text: msg });
+          localStorage.setItem('baohe-greeting-date', today);
         }
+      }, []);
 
-        if (history.length >= 3) {
-          const recent3 = history.slice(0, 3);
-          const restCount = recent3.filter(r => r.category === '身养' || r.category === '林息').length;
-          if (restCount >= 3) {
-            setTiredTip({ show: true, text: pickRandom(tiredMessages.deep) });
-          } else if (restCount === 2) {
-            setTiredTip({ show: true, text: pickRandom(tiredMessages.light) });
-          } else {
-            setTiredTip({ show: false, text: '' });
-          }
+      // 里程碑检测
+      useEffect(() => {
+        const len = history.length;
+        const triggered = JSON.parse(localStorage.getItem('baohe-milestones') || '{}');
+        if (milestoneMessages[len] && !triggered[len]) {
+          setMilestoneTip({ show: true, text: milestoneMessages[len] });
+          triggered[len] = true;
+          localStorage.setItem('baohe-milestones', JSON.stringify(triggered));
+        }
+      }, [history]);
 
-          const mindCount = recent3.filter(r => r.category === '心赏').length;
-          if (mindCount >= 2 || Math.random() < 0.35) {
-            setFunTip({ show: true, text: pickRandom(funMessages) });
-          } else {
-            setFunTip({ show: false, text: '' });
-          }
+      // 疲惫和俏皮提示
+      useEffect(() => {
+        if (history.length < 2) {
+          setTiredTip({ show: false, text: '' });
+          setFunTip({ show: false, text: '' });
+          return;
+        }
+        const recent3 = history.slice(0, 3);
+        const restCount = recent3.filter(r => r.category === '身养' || r.category === '林息').length;
+        const mindCount = recent3.filter(r => r.category === '心赏').length;
+
+        if (restCount >= 3) {
+          setTiredTip({ show: true, text: pickRandom(tiredMessages.deep) });
+        } else if (restCount === 2) {
+          setTiredTip({ show: true, text: pickRandom(tiredMessages.light) });
         } else {
           setTiredTip({ show: false, text: '' });
+        }
+
+        const shouldShowFun = (mindCount >= 2) || (Math.random() < 0.35);
+        if (shouldShowFun) {
+          setFunTip({ show: true, text: pickRandom(funMessages) });
+        } else {
           setFunTip({ show: false, text: '' });
         }
       }, [history]);
@@ -402,100 +379,54 @@
 
       const handleLottery = () => {
         if (isRolling) return;
-        setIsRolling(true);
-        setResult(null);
-        setActiveLegend(-1);
-        setPhase('spinning');
-
+        setIsRolling(true); setResult(null); setActiveLegend(-1); setPhase('spinning');
         const idx = Math.floor(Math.random() * sectors.length);
         const sec = sectors[idx];
         const target = 360 - sec.angle;
         setRotation(360 * 6 + target);
         playSound('spinStart');
-
+        // 转盘粒子
+        if (wheelCenterRef.current) spawnParticles(wheelCenterRef.current, 10);
         setTimeout(() => {
           playSound('spinEnd');
-          setSelectedCategory(sec.label);
-          setActiveLegend(idx);
-          setPhase('landed');
-
+          setSelectedCategory(sec.label); setActiveLegend(idx); setPhase('landed');
           setTimeout(() => {
-            setPhase('unrolling');
-            playSound('unroll');
-
+            setPhase('unrolling'); playSound('unroll');
+            // 卷轴粒子
+            if (scrollContainerRef.current) spawnParticles(scrollContainerRef.current, 6);
             const rewards = rewardPool.filter(r => r.category === sec.realCategory);
             const prize = weightedRandom(rewards);
-            setClosingText(pickRandom(closingPhrases));
-
+            setClosingText(closingPhrases[Math.floor(Math.random() * closingPhrases.length)]);
+            setTodayAllowance(pickRandom(todayAllowances));
             setTimeout(() => {
-              setResult(prize);
-              setPhase('reward');
+              setResult(prize); setPhase('reward');
               playSound('reward');
-              const newHistory = [{ ...prize, timestamp: Date.now() }, ...history.slice(0, 9)];
-              saveHistory(newHistory);
+              setHistory(prev => [{...prize, timestamp: Date.now()}, ...prev.slice(0,9)]);
               setIsRolling(false);
             }, 5000);
           }, 1200);
         }, 5000);
       };
 
-      const toggleBGM = () => {
-        if (!bgmOn) {
-          getAudioContext();
-          startBGM();
-          setBgmOn(true);
-        } else {
-          stopBGM();
-          setBgmOn(false);
-        }
-      };
-
-      // 浮尘粒子
-      const dustParticles = Array.from({ length: 12 }, () => ({
-        style: {
-          '--dx': `${(Math.random() - 0.5) * 40}px`,
-          '--dy': `${-20 - Math.random() * 30}px`,
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          animationDelay: `${Math.random() * 6}s`,
-          animationDuration: `${4 + Math.random() * 4}s`,
-        }
-      }));
-
       return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 relative">
-          <div className="max-w-lg w-full rounded-[40px] border border-[#8e7449]/20 bg-[#17191d]/80 backdrop-blur-sm p-6 md:p-10 text-center shadow-2xl relative overflow-hidden">
-            {/* 浮尘粒子 */}
-            {dustParticles.map((p, i) => (
-              <div key={i} className="dust-particle" style={p.style} />
-            ))}
-
-            {/* 标题 */}
+        <div className="min-h-screen flex items-center justify-center p-4 md:p-8">
+          <div className="max-w-lg w-full rounded-[40px] border border-[#8e7449]/20 bg-[#17191d]/80 backdrop-blur-sm p-6 md:p-10 text-center shadow-2xl">
             <div className="text-[#c9ab74] tracking-[0.3em] text-sm mb-1">宝和抽赏司</div>
             <div className="text-[#8e7a55]/50 text-[10px] tracking-[0.3em] mb-8">— 你的每日任务犒赏空间 —</div>
-
-            {timeGreeting && (
-              <div className="text-[#8e7a55]/70 text-xs mb-6 italic">{timeGreeting}</div>
-            )}
-
             <h1 className="text-3xl md:text-4xl font-black text-[#f3e7c9] leading-[1.4] mb-8">
-              冯大宝又拿下<br />十个任务了咩？
+              冯大宝又拿下<br/>十个任务了咩？
             </h1>
 
             {!started ? (
-              <button
-                onClick={() => { playSound('click'); setStarted(true); }}
-                className="px-10 py-4 rounded-full bg-[#b3915a] hover:bg-[#caa36a] text-[#161616] font-black text-lg transition-all duration-300 shadow-lg shadow-[#b3915a]/20"
-              >
+              <button onClick={() => { playSound('click'); setStarted(true); }}
+                className="px-10 py-4 rounded-full bg-[#b3915a] hover:bg-[#caa36a] text-[#161616] font-black text-lg transition-all duration-300 shadow-lg shadow-[#b3915a]/20">
                 当然，奉上抽奖池
               </button>
             ) : (
               <div className="space-y-8">
-                {/* 转盘 */}
-                <div className="relative mx-auto w-[280px] h-[280px] md:w-[360px] md:h-[360px]">
+                <div className="relative mx-auto w-[280px] h-[280px] md:w-[360px] md:h-[360px]" ref={wheelCenterRef}>
                   <div className="absolute left-1/2 -translate-x-1/2 -top-3 z-20 w-0 h-0 border-l-[14px] border-r-[14px] border-t-[22px] border-l-transparent border-r-transparent border-t-[#c9aa6b] wheel-pointer" />
-                  <div
-                    className="relative w-full h-full rounded-full overflow-hidden border-[10px] md:border-[12px] border-[#b89a63]/20 shadow-[0_0_60px_rgba(0,0,0,0.6)]"
+                  <div className="relative w-full h-full rounded-full overflow-hidden border-[10px] md:border-[12px] border-[#b89a63]/20 shadow-[0_0_60px_rgba(0,0,0,0.6)]"
                     style={{
                       transform: `rotate(${rotation}deg)`,
                       transition: 'transform 5s cubic-bezier(0.15,0.8,0.2,1)',
@@ -514,33 +445,20 @@
                   </div>
                 </div>
 
-                {/* 图例 */}
                 <div className="flex justify-center gap-4 md:gap-6 flex-wrap">
                   {sectors.map((s, idx) => (
-                    <div
-                      key={s.label}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-300 cursor-default ${
-                        activeLegend === idx ? 'legend-active bg-white/10' : 'bg-transparent'
-                      }`}
-                    >
-                      <span
-                        className="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full inline-block"
-                        style={{ backgroundColor: s.color, border: '1px solid rgba(255,255,255,0.25)' }}
-                      />
+                    <div key={s.label} className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-300 cursor-default ${activeLegend === idx ? 'legend-active bg-white/10' : 'bg-transparent'}`}>
+                      <span className="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full inline-block" style={{ backgroundColor: s.color, border: '1px solid rgba(255,255,255,0.25)' }} />
                       <span className="text-[#d4c4a8]">{s.label}</span>
                     </div>
                   ))}
                 </div>
 
-                <button
-                  onClick={handleLottery}
-                  disabled={isRolling}
-                  className="w-full py-4 rounded-2xl bg-[#b3915a] hover:bg-[#caa36a] disabled:opacity-60 disabled:cursor-not-allowed text-[#161616] font-black text-lg transition-all duration-300 shadow-lg shadow-[#b3915a]/20"
-                >
+                <button onClick={handleLottery} disabled={isRolling}
+                  className="w-full py-4 rounded-2xl bg-[#b3915a] hover:bg-[#caa36a] disabled:opacity-60 disabled:cursor-not-allowed text-[#161616] font-black text-lg transition-all duration-300 shadow-lg shadow-[#b3915a]/20">
                   {isRolling ? '正在斟酌赏赐…' : '大宝，请接旨'}
                 </button>
 
-                {/* 展示区 */}
                 <div className="rounded-[32px] border border-[#8e7449]/20 bg-black/20 backdrop-blur-sm p-6 md:p-8 min-h-[280px] flex items-center justify-center text-center">
                   {phase === 'idle' && <div className="text-[#a49a8d] leading-8 text-base md:text-lg">今日奖池已经备好。</div>}
                   {phase === 'spinning' && <div className="text-[#a49a8d] leading-8 text-base md:text-lg">正在斟酌赏赐…</div>}
@@ -551,7 +469,7 @@
                     </div>
                   )}
                   {phase === 'unrolling' && (
-                    <div className="relative flex items-center justify-center w-full h-full min-h-[240px]">
+                    <div className="relative flex items-center justify-center w-full h-full min-h-[240px]" ref={scrollContainerRef}>
                       <div className="flex items-center w-[260px] h-[280px] md:w-[300px] md:h-[320px]">
                         <div className="roll-axis w-[20px] h-full bg-gradient-to-r from-[#c8a86b] to-[#8e713e] rounded-l-lg shadow-inner relative z-10" />
                         <div className="flex-1 h-full flex items-center justify-center overflow-hidden relative">
@@ -572,6 +490,7 @@
                       <div className="text-3xl md:text-4xl font-black text-[#f4e8cb] leading-[1.4]">{result.title}</div>
                       <div className="text-[#c6bdaf] leading-7 md:leading-8 text-base md:text-lg max-w-[380px] mx-auto">{result.description}</div>
                       <div className="mt-6 pt-4 border-t border-[#8e7449]/20 text-[#c9aa6b] italic text-lg md:text-xl">“{closingText}”</div>
+                      <div className="text-xs text-[#8e7a55]/80 mt-2 tracking-wider">{todayAllowance}</div>
                     </div>
                   )}
                 </div>
@@ -581,28 +500,27 @@
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-[#c9ab74] text-xs md:text-sm tracking-[0.3em]">宝和司·恩赏录</h3>
                     {history.length > 0 && (
-                      <button
-                        onClick={() => {
-                          setHistory([]);
-                          if (supabase) {
-                            supabase.from('history').delete().eq('user_id', USER_ID).then();
-                          }
-                        }}
-                        className="text-[10px] text-[#8e7a55]/60 hover:text-[#c9ab74] transition-colors tracking-widest"
-                      >
-                        清空记录
-                      </button>
+                      <button onClick={() => { setHistory([]); localStorage.removeItem('baohe-milestones'); }} className="text-[10px] text-[#8e7a55]/60 hover:text-[#c9ab74] transition-colors tracking-widest">清空记录</button>
                     )}
                   </div>
 
-                  {/* 里程碑提示 */}
-                  {milestoneTip && (
-                    <div className="mb-3 p-3 rounded-xl bg-[#2b241d]/50 border border-[#c9ab74]/20 text-[#c9ab74] text-xs md:text-sm leading-relaxed text-center">
-                      {milestoneTip}
+                  {/* 时辰问候 */}
+                  {timeGreeting.show && (
+                    <div className="relative mb-3 p-3 rounded-xl bg-[#2b241d]/50 border border-[#c9ab74]/20 text-[#c9ab74] text-xs md:text-sm leading-relaxed">
+                      <button onClick={() => setTimeGreeting({ show: false, text: '' })} className="absolute top-2 right-3 text-[#8e7a55] hover:text-[#c9ab74] text-base leading-none">✕</button>
+                      {timeGreeting.text}
                     </div>
                   )}
 
-                  {/* 疲惫温柔提示 */}
+                  {/* 里程碑 */}
+                  {milestoneTip.show && (
+                    <div className="relative mb-3 p-3 rounded-xl bg-[#2b241d]/50 border border-[#c9ab74]/20 text-[#c9ab74] text-xs md:text-sm leading-relaxed">
+                      <button onClick={() => setMilestoneTip({ show: false, text: '' })} className="absolute top-2 right-3 text-[#8e7a55] hover:text-[#c9ab74] text-base leading-none">✕</button>
+                      {milestoneTip.text}
+                    </div>
+                  )}
+
+                  {/* 疲惫温柔 */}
                   {tiredTip.show && (
                     <div className="relative mb-3 p-3 rounded-xl bg-[#2b241d]/50 border border-[#c9ab74]/20 text-[#c9ab74] text-xs md:text-sm leading-relaxed">
                       <button onClick={() => setTiredTip({ show: false, text: '' })} className="absolute top-2 right-3 text-[#8e7a55] hover:text-[#c9ab74] text-base leading-none">✕</button>
@@ -610,7 +528,7 @@
                     </div>
                   )}
 
-                  {/* 俏皮/幽默提示 */}
+                  {/* 俏皮幽默 */}
                   {funTip.show && (
                     <div className="relative mb-3 p-3 rounded-xl bg-[#2b241d]/50 border border-[#c9ab74]/20 text-[#c9ab74] text-xs md:text-sm leading-relaxed">
                       <button onClick={() => setFunTip({ show: false, text: '' })} className="absolute top-2 right-3 text-[#8e7a55] hover:text-[#c9ab74] text-base leading-none">✕</button>
@@ -618,7 +536,7 @@
                     </div>
                   )}
 
-                  {history.length === 0 && !tiredTip.show && !funTip.show && !milestoneTip ? (
+                  {history.length === 0 && !timeGreeting.show && !milestoneTip.show && !tiredTip.show && !funTip.show ? (
                     <div className="flex flex-col items-center justify-center py-6 text-[#a49a8d]">
                       <span className="text-3xl md:text-4xl opacity-30 mb-2">📜</span>
                       <p className="text-xs md:text-sm tracking-[0.2em]">暂无赏赐记录</p>
@@ -630,9 +548,7 @@
                           <span className="text-2xl">{item.image}</span>
                           <div className="flex-1 min-w-0">
                             <div className="text-[#f3e7c9] font-bold truncate text-sm md:text-base">{item.title}</div>
-                            <div className="text-xs text-[#9b8e7c]">
-                              {item.timestamp ? formatRecordTime(item.timestamp) : item.category}
-                            </div>
+                            <div className="text-xs text-[#9b8e7c]">{item.timestamp ? formatRecordTime(item.timestamp) : item.category}</div>
                             <div className="text-[10px] text-[#c9ab74]/60 mt-0.5 tracking-widest">已记档</div>
                           </div>
                         </div>
@@ -642,20 +558,6 @@
                 </div>
               </div>
             )}
-          </div>
-
-          {/* BGM 开关 */}
-          <div className="mt-6">
-            <button onClick={toggleBGM}
-              className="px-5 py-2 rounded-full text-xs tracking-widest transition-all duration-300"
-              style={{
-                background: bgmOn ? 'rgba(201,170,107,0.2)' : 'rgba(255,255,255,0.05)',
-                color: bgmOn ? '#c9aa6b' : '#8e7a55',
-                border: '1px solid rgba(201,170,107,0.3)',
-                backdropFilter: 'blur(10px)'
-              }}>
-              {bgmOn ? '🎵 关闭乐音' : '🎵 开启乐音'}
-            </button>
           </div>
         </div>
       );
